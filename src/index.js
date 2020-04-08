@@ -1,24 +1,22 @@
 const express = require('express');
 
+const { info, error } = require('./modules/my_log');
+const { countries } = require('countries-list');
 
-const { info, error } = require("./modules/my_log");
-const { countries } = require("countries-list");
-
-const app = express()
+const app = express();
 
 app.get('/', function(request, response) {
-    response.send("Hola");
-})
+    response.send('Hola');
+});
 
 app.get('/info', function(request, response) {
-    info("Hola info");
-    response.send("Info");
-})
+    info('Hola info');
+    response.send('Info');
+});
 
 app.get('*', function(request, response) {
-    response.status(404).send("Error 404 Pagina no encontrada");
-})
-
+    response.status(404).send('Error 404 Pagina no encontrada');
+});
 
 // var server = http.createServer(function(request, response) {
 //     var parsed = url.parse(request.url);
@@ -59,6 +57,5 @@ app.get('*', function(request, response) {
 // });
 
 app.listen(4000, function() {
-    console.log("running on 4000");
-
+    console.log('running on 4000');
 });
