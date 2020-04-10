@@ -8,8 +8,8 @@ const productSchema = new Schema({
     title: { type: String, required: true },
     desc: { type: String, required: true },
     price: { type: Number, required: true },
-    images: ({ type: String, required: true }),
-    user: { type: mongoose.Schema.type.ObjectID, ref: 'User' }
+    images: { type: [{ type: String, required: true }], defaults: [] },
+    user: { type: mongoose.Schema.type.ObjectID, ref: 'User', required: true }
 
 }, { timestamps: true });
 
