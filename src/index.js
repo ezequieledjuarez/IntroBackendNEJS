@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 
@@ -21,6 +22,14 @@ routesv1(app);
 
 const PORT = process.env.PORT;
 
-app.listen(4000, () => {
-    console.log('running on:' + PORT);
-});
+mongoose.connect(process.env.MONGO, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log('connected to mongodb');
+    app.listen(PORT, () => {
+        console.log('running on:', PORT);
+    });
+}).catch(error => {
+    console.log('mongodb error', error);
+})
