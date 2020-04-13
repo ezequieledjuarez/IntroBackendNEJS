@@ -1,6 +1,29 @@
 const bcrypt = require('bcrypt');
 const Users = require('../../mongo/models/users');
 
+
+const logIn = async(req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await Users.findOne({ email });
+        if (email) {
+            const isOk = await bcrypt.compare(password, user.password);
+            if (isOk) {
+                res.send({ status: 'Ok', data: {} });
+            } else {
+                res.status(403).send({ status: 'INVALID_PASSWORD', message: '' })
+            }
+
+        } else {
+            res.status(401).send({ status: 'USER_NOTFOUND', message: '' });
+        }
+
+    } catch (e) {
+        res.status(500).send({ status: 'Error', message: e.message });
+    }
+}
+
+
 const createUser = async(req, res) => {
     try {
 
@@ -56,5 +79,6 @@ module.exports = {
     createUser,
     deleteUser,
     getUsers,
-    updateUser
+    updateUser,
+    logIn
 };
