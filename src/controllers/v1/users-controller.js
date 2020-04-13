@@ -34,8 +34,22 @@ const getUsers = (req, res) => {
     res.send({ status: 'OK', data: {} });
 };
 
-const updateUser = (req, res) => {
-    res.send({ status: 'OK', message: 'User updated' });
+const updateUser = async(req, res) => {
+    try {
+        const { username, email, data, userId } = req.body;
+        await Users.findByIdAndUpdate(userId, {
+            username,
+            email,
+            data
+        })
+        res.send({ status: 'OK', message: 'User updated' });
+    } catch (error) {
+        if (error.code && error.code === 11000) {
+            res.status(400).send({ status: 'DUPLICATED_VALUES', message: error.keyValue });
+            return;
+        }
+        res.status(500).send({ status: 'Error', message: 'User updated' });
+    }
 };
 
 module.exports = {

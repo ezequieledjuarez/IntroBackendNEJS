@@ -35,9 +35,22 @@ const getProducts = async(req, res) => {
 };
 
 
+const getProductsByUser = async(req, res) => {
+    try {
+        const products = await Products.find({
+            user: req.params.userId
+        });
+        res.send({ status: 'OK', data: products });
+    } catch (e) {
+        console.log('Find Product error', e);
+        res.status(500).send({ status: 'Error', error: e.message });
 
+    }
+
+};
 module.exports = {
     createProduct,
     deleteProduct,
-    getProducts
+    getProducts,
+    getProductsByUser
 };
